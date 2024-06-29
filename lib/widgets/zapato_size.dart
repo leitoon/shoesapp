@@ -1,31 +1,115 @@
-
-
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../pages/zapato_desc_page.dart';
+
 class ZapatoSizePreview  extends StatelessWidget {
+  final bool fullscreen;
+
+  const ZapatoSizePreview({super.key,  this.fullscreen=false});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0,vertical: 5),
-      child: Container
-      (
-        width: double.infinity,
-        height: 430,
-        decoration: BoxDecoration
+    return InkWell(
+      onTap:()
+      {
+        if(!fullscreen)
+        {
+          Navigator.push(context, MaterialPageRoute(builder:(BuildContext context)=>ZapatpDescPage() ));
+        }
+      } ,
+      child: Padding(
+        padding:  EdgeInsets.symmetric(
+          horizontal: (fullscreen)?5:30.0,
+          vertical: (fullscreen)?5:0),
+        child: Container
         (
-          color: Color(0xffFFCF53),
-          borderRadius: BorderRadius.circular(50)
-        ),
-        child: Column
-        (
-          children: 
-          [
-            _ZapatoConSombra()
-          ],
+          width: double.infinity,
+          height: (fullscreen)?418:430,
+          decoration: BoxDecoration
+          (
+            color: Color(0xffFFCF53),
+            borderRadius: 
+            (!fullscreen)?
+            BorderRadius.circular(50):
+            BorderRadius.only(bottomLeft: Radius.circular(50),
+            bottomRight: Radius.circular(50),
+            topLeft: Radius.circular(40),
+            topRight:  Radius.circular(40)
+            )
+          ),
+          child: Column
+          (
+            children: 
+            [
+              _ZapatoConSombra(),
+              if(!fullscreen)
+              _ZapatoTallas()
+            ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+class _ZapatoTallas extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: Row
+      (
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: 
+        [
+          _TallaZapatoCaja(numero: 7,),
+          _TallaZapatoCaja(numero: 7.5,),
+          _TallaZapatoCaja(numero: 8,),
+          _TallaZapatoCaja(numero: 8.5,),
+          _TallaZapatoCaja(numero: 9,),
+          _TallaZapatoCaja(numero: 9.5,)
+        ],
+      ),
+    );
+  }
+}
+
+class _TallaZapatoCaja extends StatelessWidget {
+  final double numero;
+  const _TallaZapatoCaja({
+    super.key, required this.numero,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container
+    (
+      alignment: Alignment.center,
+      width: 45,
+      height: 45,
+      decoration: BoxDecoration
+      (
+        color:(numero==9) ? Color(0xffF1A23A): Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: 
+        [
+          BoxShadow
+          (
+            color: (numero==9) ? Color(0xffF1A23A) : Colors.transparent,
+            blurRadius: 10,
+            offset: Offset(0, 5)
+            
+          )
+        ]
+      ),
+      child:Text('${numero.toString().replaceAll('.0', '')}',
+      style:TextStyle
+      (
+        color: (numero==9)?Colors.white: Color(0xffF1A23A),
+        fontSize: 16,
+        fontWeight: FontWeight.bold
+      ) ,),
     );
   }
 }

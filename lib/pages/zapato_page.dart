@@ -8,7 +8,7 @@ class ZapatoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold
+    return const Scaffold
     (
      
       body:Column
@@ -17,7 +17,27 @@ class ZapatoPage extends StatelessWidget {
         [
           CustomAppBar(texto: 'For you'),
           SizedBox(height: 20,),
-          ZapatoSizePreview()
+          Expanded(child: 
+          SingleChildScrollView
+          (
+            physics: BouncingScrollPhysics(),
+            child: Column
+            (
+              children: 
+              [
+                 Hero(
+                  tag: 'zapato-1',
+                  child: ZapatoSizePreview()),
+          ZapatoDescripcion(
+          titulo: 'Nike Air Max 720',
+          descripcion: "The Nike Air Max 720 goes bigger than ever before with Nike's taller Air unit yet, offering more air underfoot for unimaginable, all-day comfort. Has Air Max gone too far? We hope so.",
+          )
+              ],
+            ),
+          )
+          ),
+          AgregrarCarritoBoton(monto:180)
+         
         ],
       ),
     );
