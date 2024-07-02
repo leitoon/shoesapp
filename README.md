@@ -1,4 +1,4 @@
- Shoe App
+# Shoe App
 
 This is a sample Flutter application that showcases a user interface for a shoe store. The app provides various screens to view shoe details, colors, and purchase options.
 
