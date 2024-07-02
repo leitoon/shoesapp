@@ -11,3 +11,6 @@ This is a sample Flutter application that showcases a user interface for a shoe 
 
 
 ## Video
+
+https://github.com/leitoon/shoesapp/assets/43183222/b9eed547-3dd8-4380-bffb-cd6e7d52f005
+
