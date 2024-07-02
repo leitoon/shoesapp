@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:shoesapp/pages/zapato_desc_page.dart';
+import 'package:provider/provider.dart';
 import 'package:shoesapp/pages/zapato_page.dart';
 
+import 'models/zapato_model.dart';
+
 void main() {
-  runApp(const MyApp());
+  return runApp(
+     MultiProvider(
+      
+   
+      providers: [
+        ChangeNotifierProvider(create: (_)=> ZapatoModel())
+      ],
+      child: MyApp()
+      )
+    );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,7 +23,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ShoesApp',
       home: 

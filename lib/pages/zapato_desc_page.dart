@@ -1,16 +1,17 @@
-
-
-
-import 'package:flutter/cupertino.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+import 'package:shoesapp/helpers/helpers.dart';
 import 'package:shoesapp/widgets/custom_widgets.dart';
+
+import '../models/zapato_model.dart';
 
 class ZapatpDescPage extends StatelessWidget {
   const ZapatpDescPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    cambiarStatusLight();
     return  Scaffold
     (
       body: Column
@@ -18,22 +19,22 @@ class ZapatpDescPage extends StatelessWidget {
         children: 
         [
           Stack(children: [
-            Hero(
+            const Hero(
               tag: 'zapato-1',
-              child: ZapatoSizePreview(fullscreen:true)),
+              child: Material(child: ZapatoSizePreview(fullscreen:true))),
             Positioned(
             top: 80,
             child: 
             InkWell(
               onTap: (){
-
+                cambiarStatusDark();
                 Navigator.pop(context);
               },
-              child: Icon(Icons.chevron_left,color: Colors.white,size: 60,))
+              child: const Icon(Icons.chevron_left,color: Colors.white,size: 60,))
            
             )
             ]),
-          Expanded(child: SingleChildScrollView
+          const Expanded(child: SingleChildScrollView
           (
             child: Column
             (
@@ -64,8 +65,8 @@ class _BotonesLikeCartSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container
     (
-      margin: EdgeInsets.symmetric(vertical: 30),
-      padding: EdgeInsets.symmetric(horizontal: 30),
+      margin: const EdgeInsets.symmetric(vertical: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Row
       (
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -132,14 +133,16 @@ class _Coloresymas extends StatelessWidget {
             [
               Positioned(
                 left: 90,
-                child: _BotonColor(color: Color(0xffC6D642),)),
+                child: _BotonColor(color: Color(0xffC6D642), index: 4, assets: 'assets/imgs/verde.png'),
+            
+                ),
             Positioned(
               left: 60,
-              child: _BotonColor(color: Color(0xffFFAD29),)),
+              child: _BotonColor(color: Color(0xffFFAD29), index: 3, assets: 'assets/imgs/amarillo.png'),),
              Positioned(
               left: 30,
-              child: _BotonColor(color: Color(0xff2099F1),)),
-          _BotonColor(color: Color(0xff364D56),),
+              child: _BotonColor(color: Color(0xff2099F1), index: 2, assets: 'assets/imgs/azul.png')),
+          _BotonColor(color: Color(0xff364D56), index: 1, assets: 'assets/imgs/negro.png'),
             ],
           )),
          
@@ -155,20 +158,33 @@ class _Coloresymas extends StatelessWidget {
 
 class _BotonColor extends StatelessWidget {
   final Color color;
+  final int index;
+  final String assets;
   const _BotonColor({
-    super.key, required this.color,
+    super.key, required this.color, required this.index, required this.assets,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container
-    (
-      width: 45,
-      height: 45,
-      decoration: BoxDecoration
-      (
-        color: color,
-        shape: BoxShape.circle
+    return FadeInLeft(
+      delay: Duration(milliseconds: index*100),
+      duration: Duration(milliseconds: 300),
+      child: InkWell(
+        onTap: () {
+          final zapatoModel = Provider.of<ZapatoModel>(context,listen: false);
+          zapatoModel.assetImage=assets;
+          print(assets);
+        },
+        child: Container
+        (
+          width: 45,
+          height: 45,
+          decoration: BoxDecoration
+          (
+            color: color,
+            shape: BoxShape.circle
+          ),
+        ),
       ),
     );
   }
@@ -185,13 +201,16 @@ class _MontoBuyNow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: Container(
         margin: const EdgeInsets.only(top: 20,bottom: 20),
-        child: const Row
+        child:  Row
         (
           children: 
           [
             Text('\$ 180.0',style: TextStyle(fontSize: 28,fontWeight: FontWeight.bold),),
             Spacer(),
-            BotonNaranja(texto: 'Buy now',ancho: 120,alto: 40,)
+            Bounce(
+              delay: Duration(seconds: 1),
+              from: 8,
+              child: BotonNaranja(texto: 'Buy now',ancho: 120,alto: 40,))
           ],
         ),
       ),

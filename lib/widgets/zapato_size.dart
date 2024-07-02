@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
+import '../models/zapato_model.dart';
 import '../pages/zapato_desc_page.dart';
 
 class ZapatoSizePreview  extends StatelessWidget {
@@ -83,6 +85,7 @@ class _TallaZapatoCaja extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final zapatoModel = Provider.of<ZapatoModel>(context);
     return Container
     (
       alignment: Alignment.center,
@@ -90,26 +93,32 @@ class _TallaZapatoCaja extends StatelessWidget {
       height: 45,
       decoration: BoxDecoration
       (
-        color:(numero==9) ? Color(0xffF1A23A): Colors.white,
+        color:(numero==zapatoModel.talla) ? Color(0xffF1A23A): Colors.white,
         borderRadius: BorderRadius.circular(10),
         boxShadow: 
         [
           BoxShadow
           (
-            color: (numero==9) ? Color(0xffF1A23A) : Colors.transparent,
+            color: (numero==zapatoModel.talla) ? Color(0xffF1A23A) : Colors.transparent,
             blurRadius: 10,
             offset: Offset(0, 5)
             
           )
         ]
       ),
-      child:Text('${numero.toString().replaceAll('.0', '')}',
-      style:TextStyle
-      (
-        color: (numero==9)?Colors.white: Color(0xffF1A23A),
-        fontSize: 16,
-        fontWeight: FontWeight.bold
-      ) ,),
+      child:InkWell(
+        onTap: () {
+          final zapatoModel = Provider.of<ZapatoModel>(context,listen: false);
+          zapatoModel.talla=numero;
+        },
+        child: Text(numero.toString().replaceAll('.0', ''),
+        style:TextStyle
+        (
+          color: (numero==zapatoModel.talla)?Colors.white: Color(0xffF1A23A),
+          fontSize: 16,
+          fontWeight: FontWeight.bold
+        ) ,),
+      ),
     );
   }
 }
@@ -118,6 +127,7 @@ class _ZapatoConSombra extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final zapatoModel = Provider.of<ZapatoModel>(context);
     return Padding(
       padding: const EdgeInsets.all(50.0),
       child: Stack
@@ -128,7 +138,7 @@ class _ZapatoConSombra extends StatelessWidget {
             bottom: 20,
             right: 0,
             child: _ZapatoSombra()),
-          Image.asset('assets/imgs/azul.png')
+          Image.asset(zapatoModel.assetImage)
         ],
       ),
     );
